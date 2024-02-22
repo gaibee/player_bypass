@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"PostMessageW Bypass"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : KollusAgent.exe
+  Version: 
+  Date   : 2024-02-16
+  Author : gaibee
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+
+aobscanmodule(PostMessageHook,isjjhh3.dll,56 57 50 52 FF 15 6C ?? ?? ?? 8B 45) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  push 0
+  push 0
+  push 0
+  push edx
+  call dword ptr [isjjhh3.dll+2D36C]
+  jmp return
+
+PostMessageHook:
+  jmp newmem
+  nop 5
+return:
+registersymbol(PostMessageHook)
+
+[DISABLE]
+
+PostMessageHook:
+  db 56 57 50 52 FF 15 6C D3 57 6E
+
+unregistersymbol(PostMessageHook)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: isjjhh3.dll+D2D1
+
+isjjhh3.dll+D2B4: 8B 45 10           - mov eax,[ebp+10]
+isjjhh3.dll+D2B7: 73 03              - jae isjjhh3.dll+D2BC
+isjjhh3.dll+D2B9: 8D 45 10           - lea eax,[ebp+10]
+isjjhh3.dll+D2BC: 56                 - push esi
+isjjhh3.dll+D2BD: 50                 - push eax
+isjjhh3.dll+D2BE: 57                 - push edi
+isjjhh3.dll+D2BF: FF 15 60 D3 57 6E  - call dword ptr [isjjhh3.dll+2D360]
+isjjhh3.dll+D2C5: 8B 45 0C           - mov eax,[ebp+0C]
+isjjhh3.dll+D2C8: 8B 8B 1C 01 00 00  - mov ecx,[ebx+0000011C]
+isjjhh3.dll+D2CE: 8B 51 20           - mov edx,[ecx+20]
+// ---------- INJECTING HERE ----------
+isjjhh3.dll+D2D1: 56                 - push esi
+// ---------- DONE INJECTING  ----------
+isjjhh3.dll+D2D2: 57                 - push edi
+isjjhh3.dll+D2D3: 50                 - push eax
+isjjhh3.dll+D2D4: 52                 - push edx
+isjjhh3.dll+D2D5: FF 15 6C D3 57 6E  - call dword ptr [isjjhh3.dll+2D36C]
+isjjhh3.dll+D2DB: 8B 45 0C           - mov eax,[ebp+0C]
+isjjhh3.dll+D2DE: 56                 - push esi
+isjjhh3.dll+D2DF: 57                 - push edi
+isjjhh3.dll+D2E0: 50                 - push eax
+isjjhh3.dll+D2E1: E8 CA A7 00 00     - call isjjhh3.updateBanListEnc
+isjjhh3.dll+D2E6: 83 C4 0C           - add esp,0C
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"startSpyProcess Bypass"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{ Game   : KollusAgent.exe
+  Version: 
+  Date   : 2024-02-22
+  Author : gaibee
+
+  This script does blah blah blah
+}
+
+[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+
+ 
+ 
+aobscanmodule(INJECT4,isjjhh3.dll,7E 3C 51 51 68) // should be unique
+alloc(newmem,$1000)
+
+label(code)
+label(return)
+
+newmem:
+
+code:
+  jmp isjjhh3.startSpyProcess+49
+
+INJECT4:
+  jmp newmem
+  nop 4
+return:
+registersymbol(INJECT4)
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+INJECT4:
+  db 7E 3C 51 51 68 D0 DD 6C 70
+
+unregistersymbol(INJECT4)
+dealloc(newmem)
+
+{
+// ORIGINAL CODE - INJECTION POINT: isjjhh3.startSpyProcess+B
+
+isjjhh3.getInfo+5A: CC                 - int 3 
+isjjhh3.getInfo+5B: CC                 - int 3 
+isjjhh3.getInfo+5C: CC                 - int 3 
+isjjhh3.getInfo+5D: CC                 - int 3 
+isjjhh3.getInfo+5E: CC                 - int 3 
+isjjhh3.getInfo+5F: CC                 - int 3 
+isjjhh3.startSpyProcess: 55                 - push ebp
+isjjhh3.startSpyProcess+1: 8B EC              - mov ebp,esp
+isjjhh3.startSpyProcess+3: 33 C9              - xor ecx,ecx
+isjjhh3.startSpyProcess+5: 39 0D F8 DE 6C 70  - cmp [isjjhh3.dll+4DEF8],ecx
+// ---------- INJECTING HERE ----------
+isjjhh3.startSpyProcess+B: 7E 3C              - jle isjjhh3.startSpyProcess+49
+// ---------- DONE INJECTING  ----------
+isjjhh3.startSpyProcess+D: 51                 - push ecx
+isjjhh3.startSpyProcess+E: 51                 - push ecx
+isjjhh3.startSpyProcess+F: 68 D0 DD 6C 70     - push isjjhh3.dll+4DDD0
+isjjhh3.startSpyProcess+14: B0 01              - mov al,01
+isjjhh3.startSpyProcess+16: 68 20 D3 68 70     - push isjjhh3.dll+D320
+isjjhh3.startSpyProcess+1B: A2 55 DF 6C 70     - mov [isjjhh3.dll+4DF55],al
+isjjhh3.startSpyProcess+20: A2 E8 DE 6C 70     - mov [isjjhh3.dll+4DEE8],al
+isjjhh3.startSpyProcess+25: 8B 45 08           - mov eax,[ebp+08]
+isjjhh3.startSpyProcess+28: 51                 - push ecx
+isjjhh3.startSpyProcess+29: 51                 - push ecx
+}
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"Launch EndDepend"</Description>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+alloc(thread, 2048)
+createthread(thread)
+
+thread:
+push ecx
+mov eax,[TftLib.dll.data+13B4]
+xor eax,esp
+mov [esp],eax
+call TftLib.dll.text+7040
+mov eax,[TftLib.dll+45814]
+test eax,eax
+jne TftLib.EndDepend+25
+mov ecx,[esp]
+xor ecx,esp
+call TftLib.dll.text+1E531
+pop ecx
+ret
+cmp dword ptr [TftLib.dll+45810],01
+jne TftLib.EndDepend+49
+cmp eax,02
+je TftLib.EndDepend+49
+cmp eax,03
+je TftLib.EndDepend+49
+call TftLib.dll.text+A460
+mov ecx,[esp]
+xor ecx,esp
+call TftLib.dll.text+1E531
+pop ecx
+ret
+push 00
+push 00
+call dword ptr [TftLib.dll.rdata+2E0]
+push eax
+call TftLib.dll.text+AFF0
+mov ecx,[esp+0C]
+add esp,0C
+xor ecx,esp
+call TftLib.dll.text+1E531
+pop ecx
+ret
+
+
+[DISABLE]
+
+//code from here till the end of the code will be used to disable the cheat
+
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"RDUtil.dll"+4BE7</Address>
+      <Comment>Process32Next
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"TDCommonLib.dll"+5ED7</Address>
+      <Comment>여기
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"TDCommonLib.dll"+8478</Address>
+      <Comment>여기 들어가는 순간 안됨
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"TftLib.dll"+87FE</Address>
+      <Comment>여기
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"TftLib.dll"+BFAE</Address>
+      <Comment>여기인듯?
+</Comment>
+    </DisassemblerComment>
+    <DisassemblerComment>
+      <Address>"TftLib.dll"+D9E3</Address>
+      <Comment>StartDepend 2-3
+</Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>
